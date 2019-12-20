@@ -46,7 +46,7 @@ int main (int argc, char** argv) {
 	
 	ifstream trace;
 	trace.open(argv[2]);
-    int counter =1;
+    
 	while (!trace.eof()) {
 		unsigned long pc; bool taken;
 		trace >> std::hex >> pc >> taken;
@@ -55,20 +55,9 @@ int main (int argc, char** argv) {
         
         bool prediction;
         
-        // updating bhr        
-        for(int i=k-1;i>0;i--){            
-            if(taken){
-                bhr[0] = '1'; 
-            }
-            else {
-                bhr[0] = '0';
-            } 
-            bhr[i]=bhr[i-1];
-        }
-        
         bhrval = strtoull(bhr.c_str(),NULL,2);
         
-        // updating pht
+        // updating pht(pattern history table)
         if(taken){
             if(pht[val][bhrval]==ST||pht[val][bhrval]==WT){
                 pht[val][bhrval]=ST;
@@ -97,7 +86,19 @@ int main (int argc, char** argv) {
                 prediction=true;
             }
         }
-        counter++;
+        
+        // updating bhr(branch history register)        
+        for(int i=k-1;i>0;i--){              
+            bhr[i]=bhr[i-1];
+        }
+        if(k>1){
+              if(taken){
+                    bhr[0] = '1'; 
+                }
+                else {
+                    bhr[0] = '0';
+                } 
+        }
 		out << prediction << endl;
 	}
 	 
