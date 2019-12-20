@@ -3,9 +3,11 @@
 
 ## Steps to run
 
-`g++ predictor.cpp`
+1. `g++ predictor.cpp`
 
-`./a.out config.txt trace.txt`
+2. `./a.out config.txt trace.txt`
+
+Check the values in `trace.out.txt`
 
 ## Details 
 
